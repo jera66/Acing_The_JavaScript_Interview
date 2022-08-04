@@ -312,5 +312,116 @@ let binarySearchRec = function(nums, target, low, high) {
   }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                       Rotate an Array by N Elements
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Given an integer array, rotate it by 'n' elements.
+//We’re given an array of integers, nums. Rotate the array by n elements, where n is an integer:
+//For positive values of n, perform a right rotation.
+//For negative values of n, perform a left rotation.
+//Make sure we make changes to the original array.
+
+// Solution 1#
+// Here’s how the solution works:
+// Normalize the rotations, so they do not exceed the length of the array. For example, for an array of length 10, rotating by 14
+// elements is the same as rotating by (14%10) 4 elements.
+// Convert negative rotations to positive rotations.
+// Reverse the elements of the original array.
+// Reverse the elements from 0 to n-1
+// Reverse the elements from n to length-1
+let reverseArray = function(nums, start, end) {
+    while (start < end) {
+      let temp = nums[start];
+      nums[start] = nums[end];
+      nums[end] = temp;
+      start++;
+      end--;
+    }
+  };
+  
+  let rotateArray = function(nums, n) {
+    let len = nums.length;
+  
+    // Normalizing the 'n' rotations
+    n = n % len;
+    if (n < 0) {
+      // calculate the positive rotations needed.
+      n = n + len;
+    }
+    // Let's partition the array based on rotations 'n'.
+    reverseArray(nums, 0, len - 1);
+    reverseArray(nums, 0, n - 1);
+    reverseArray(nums, n, len - 1);
+  };
+  
+  let arr = [1, 10, 20, 0, 59, 86, 32, 11, 9, 40];
+  
+  console.log("Array Before Rotation ");
+  console.log(printArray(arr));
+  
+  rotateArray(arr, 2);
+  
+  console.log("Array After 2 Rotations ");
+  console.log(printArray(arr));
+// Time complexity#
+// The time complexity of the code is linear, O(n)
+// Space complexity#
+// The space complexity of the code is constant, O(1)
+
+// Solution 2#
+// Here is how the solution works:
+// Normalize the rotations, so they do not exceed the length of the array.
+// Convert negative rotations to positive rotations.
+// Store the last n
+//  elements into a temporary array.
+// Shift the original array towards the right by l-n
+//  places. Here, l is the length of the ​array.
+// Copy the temporary array at the beginning of the original array.
+let rotateArray = function(nums, n) {
+    let len = nums.length;
+  
+    // Let's normalize rotations
+    n = n % len;
+    if (n < 0) {
+      // calculate the positive rotations needed.
+      n = n + len;
+    }
+  
+    let temp = [];
+  
+    // copy last 'n' elements of array into temp
+    for (let i = 0; i < n; i++) {
+      temp[i] = nums[len - n + i];
+    }
+  
+    // shift original array
+    for (let i = len - 1; i >= n; i--) {
+      nums[i] = nums[i - n];
+    }
+  
+    // copy temp into original array
+    for (let i = 0; i < n; i++) {
+        nums[i] = temp[i];
+    }
+  };
+  
+  let arr = [1, 10, 20, 0, 59, 86, 32, 11, 9, 40];
+  
+  console.log("Array Before Rotation");
+  console.log(printArray(arr));
+  
+  rotateArray(arr, -3);
+  
+  console.log("Array After -3 Rotations");
+  console.log(printArray(arr));
+//   Time complexity#
+// The time complexity of this code is O(n), where n is the number of elements in the array.
+// Space complexity#
+// The space complexity of this code is O(n)
+//  because we use another temporary array of the same size.
+//   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
                                                                                                                                                                       
