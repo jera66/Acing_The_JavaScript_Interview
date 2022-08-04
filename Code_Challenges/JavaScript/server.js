@@ -206,3 +206,56 @@ class Log{
   console.log("logs = " + printLogs(logs1));
   console.log("Output:", printArray(time1));
   console.log("\n-----------------------------------------------------------------------------------------------------");
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //                                              Implement Binary Search on a Sorted Array                                                                                                                                          
+   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//Given a sorted array of integers, return the index of the given value. 
+// We are given an array of integers, nums, sorted in ascending order, and an integer value, target. 
+//  If the target exists in the array, return its index. If the target does not exist, then return -1.
+// The binary search divides the input array by half at every step. 
+// After every step, either we find the index we are looking for, or we discard half of the array.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+let binarySearch = function(nums, target) {
+    let low = 0;
+    let high = nums.length - 1;
+
+    while (low <= high) {
+
+      // Finding the mid using floor division  
+      let mid = low + Math.floor((high - low) / 2);
+
+      //Target value is present at the middle of the array
+      if (nums[mid] === target) {
+        return mid;
+      }
+
+      //Target value is present in the low subarray
+      if (target < nums[mid]) {
+        high = mid - 1;
+      } 
+      //Target value is present in the high subarray
+      else {
+        low = mid + 1;
+      }
+    }  
+    // Target value is not present in the array
+    return -1;
+};
+
+let numsLists = [[], [0,1], [1,2,3], [-1,0,3,5,9,12], [-1,0,3,5,9,12]];
+let targetList = [12, 1, 3, 9, 2];
+for(let i=0; i<numsLists.length; i++){
+	let nums = numsLists[i];
+	let target = targetList[i];
+	let index = binarySearch(nums, target);
+	console.log(i+1 + ". Array to search: " + printArray(nums));
+	console.log("   Target: " + String(target));
+	if(index!= -1)
+		console.log("   " + String(target) + " exists in the array at index", index);
+	else
+		console.log("   " + String(target) + " does not exist in the array so the return value is", index);
+	console.log("----------------------------------------------------------------------------------------------------\n");
+
+}
+
+                                                                                                                                                                      
