@@ -421,6 +421,122 @@ let rotateArray = function(nums, n) {
 //  because we use another temporary array of the same size.
 //   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                      Searching a Rotated Array                                               
+//   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Search for a given number in a sorted array that has been rotated by some arbitrary number.
+// We’re given a sorted integer array, nums and an integer value, target. 
+// The array is rotated by some arbitrary number. Search the target in this array. If the target does not exist then return -1.
+// Solution 1: Iterative#
+// The solution is essentially a binary search but with some modifications. 
+// When we look at the array in the example, you may notice that at least one-half of the array is always sorted. 
+// We can use this property to our advantage. 
+// If the target lies within the sorted half of the array, our problem is a basic binary search. 
+// Otherwise, discard the sorted half and keep examining the unsorted half. 
+// Since we partition the array in half at each step, this gives us  O(log n) runtime complexity.
+let binarySearchRotated = function(nums, target) {
+    start = 0;
+    end = nums.length - 1;
+  
+    if (start > end){
+      return -1;
+    }
+  
+    while (start <= end){
+        
+      // Finding the mid using floor division  
+      mid = start + Math.floor((end - start) / 2);
+      
+      // Target value is present at the middle of the array
+      if (nums[mid] == target){
+        return mid;
+      }
+      
+      // start to mid is sorted
+      if (nums[start] <= nums[mid]){
+        if(nums[start] <= target && target < nums[mid]){
+          end = mid - 1;
+        } else {
+          start = mid + 1;
+        }
+      }
+      // mid to end is sorted
+      else{
+        if(nums[mid] < target && target <= nums[end]){
+          start = mid + 1;
+        } else {
+          end = mid - 1;
+        }
+      }
+    }
+    return -1;
+  };
+  
+  let targetList = [3,6,3,6];
+  let numsList = [[6, 7, 1, 2, 3, 4, 5], [6, 7, 1, 2, 3, 4, 5], [4, 5, 6, 1, 2, 3], [4, 5, 6, 1, 2, 3]];
+  
+  for(let i =0; i< targetList.length; i++){
+    console.log((i + 1) + ". Rotated array: " + printArray(numsList[i]));
+    console.log("   target " + targetList[i] +  " found at index " + binarySearchRotated(numsList[i], targetList[i]));
+    console.log("----------------------------------------------------------------------------------------------------\n");
+  }
+//   Time complexity#
+// The time complexity of this solution is logarithmic, O(log n)
+// Space complexity#
+// The space complexity of this solution is constant, O(1)
+
+// Solution 2: Recursive#
+// In this solution, we will use the recursive binary search approach to locate the target. 
+// Each recursive call considers half of the array passed to it.
+let binarySearch = function(nums, start, end, target) {
+  
+    if (start > end) {
+      return -1;
+    }
+    
+    // Finding mid using floor division
+    let mid = start + Math.floor((end - start) / 2);
+  
+    if (nums[mid] === target) {
+      return mid;
+    }
+    
+    // start to mid is sorted
+    if (nums[start] <= nums[mid] && target <= nums[mid] && target >= nums[start]) {
+      return binarySearch(nums, start, mid - 1, target);
+    } 
+    // mid to end is sorted
+    else if (nums[mid] <= nums[end] && target >= nums[mid] && target <= nums[end]) {
+      return binarySearch(nums, mid + 1, end, target);
+    } 
+    
+    else if (nums[end] <= nums[mid]) {
+      return binarySearch(nums, mid + 1, end, target);
+    } 
+    
+    else if (nums[start] >= nums[mid]) {
+      return binarySearch(nums, start, mid - 1, target);
+    } 
+    
+    return -1;
+  };
+  
+  let binarySearchRotated = function(nums, target) {
+    return binarySearch(nums, 0, nums.length - 1, target);
+  };
+  
+  let targetList = [3,6,3,6];
+  let numsList = [[6, 7, 1, 2, 3, 4, 5], [6, 7, 1, 2, 3, 4, 5], [4, 5, 6, 1, 2, 3], [4, 5, 6, 1, 2, 3]];
+  
+  for(let i =0; i< targetList.length; i++){
+    console.log((i + 1) + ". Rotated array: " + printArray(numsList[i]));
+    console.log("   target " + targetList[i] +  " found at index " + binarySearchRotated(numsList[i], targetList[i]));
+    console.log("----------------------------------------------------------------------------------------------------\n")
+  }
+//   Time complexity#
+// The time complexity of this solution is logarithmic, O(log n)
+// Space complexity#
+// The space complexity of this solution is logarithmic, O(log n)
 
 
 
