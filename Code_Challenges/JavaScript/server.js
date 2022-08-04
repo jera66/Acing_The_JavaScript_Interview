@@ -12,7 +12,6 @@
 //  Expected output#
 //  [3, 4, 5, 6, 7, 8, 9, 10]
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 let findMaxSlidingWindow = function(nums, windowSize) {
     let result = [];
     
@@ -136,3 +135,74 @@ for(let i = 0; i < inputs.length; i++){
                 minRemoveParentheses(inputs[i]));
     console.log("-------------------------------------------------------------------------------------------------\n");
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Compute exclusive execution times for all functions in the program.
+// We are given an integer number n, representing the number of functions running in a single-threaded CPU, 
+// and a list of strings, where each string represents the start or end timestamp of a specific function. 
+// Each function has a unique ID between 0 and n-1. Compute the exclusive time of the functions in the program.
+// Note: Exclusive time is the sum of the execution times for all the calls to a specific function.
+
+// Solution#
+// We’ll solve this problem using the stack containing the starting time of all functions in the program.
+// First, obtain the function ID, starting or ending time, and timestamp from each string in the given list.
+// If the string contains “start”, push the current log details to the stack.
+// Otherwise, we pop the log details from the stack and add the execution time of the current function in the actual exclusive time.
+// If the stack is not empty, the current function is a child function. 
+// Thus, we subtract the execution time of this function from the parent function. 
+// We decrease the time in the parent function in advance.
+// We store the execution time of each function at the index equal to the function ID in the result array.
+// When the same function is called recursively, we add the function’s execution time in the current value at the specific index.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Log{
+    constructor(content){
+      this.strs = content.split(":");
+      this.id = parseInt(this.strs[0]);
+      this.isStart = this.strs[1] == "start";
+      this.time = parseInt(this.strs[2]);
+    }
+  }
+  let exclusiveTime = function(n, logs){
+  
+    let stack = [];
+    let result = new Array(n).fill(0);
+  
+    for (let content of logs){
+      //  Extract the log details from the content(string)
+      let log = new Log(content);
+      if (log.isStart){
+          //  Push the log details to the stack
+          stack.push(log);
+      }
+      else{
+        //  Pop the log details from the stack
+        top = stack.pop();
+        //  Add the execution time of the current function in the actual result
+        result[top.id] += (log.time - top.time + 1)
+        //  If the stack is not empty, subtract the current child function execution time from the parent function
+        if(stack.length > 0){
+            result[stack[stack.length-1].id] -= (log.time - top.time + 1)
+        }
+      }
+    }
+    return result; 
+  };
+  
+  //  Example 1
+  console.log("1. Input:  ");
+  let n = 3;
+  let logs = ["0:start:0","1:start:2","1:end:3","2:start:4","2:end:7","0:end:8"];
+  let time = exclusiveTime(n, logs);
+  console.log("n = " , n);
+  console.log("logs = " + printLogs(logs));
+  console.log("Output:", printArray(time));
+  console.log("\n-----------------------------------------------------------------------------------------------------")
+  
+  // Example 2
+  console.log("2. Input:  ");
+  let n1 = 2 ;
+  let logs1 = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"];
+  let time1 = exclusiveTime(n1, logs1);
+  console.log("n = " , n1);
+  console.log("logs = " + printLogs(logs1));
+  console.log("Output:", printArray(time1));
+  console.log("\n-----------------------------------------------------------------------------------------------------");
