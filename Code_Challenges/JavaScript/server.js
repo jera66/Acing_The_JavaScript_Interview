@@ -214,7 +214,6 @@ class Log{
 //  If the target exists in the array, return its index. If the target does not exist, then return -1.
 // The binary search divides the input array by half at every step. 
 // After every step, either we find the index we are looking for, or we discard half of the array.
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 let binarySearch = function(nums, target) {
     let low = 0;
     let high = nums.length - 1;
@@ -257,5 +256,61 @@ for(let i=0; i<numsLists.length; i++){
 	console.log("----------------------------------------------------------------------------------------------------\n");
 
 }
+// Time complexity#
+// The time complexity of this solution is logarithmic, O(log \space n)
+// O(log n)
+// .
+// Space complexity#
+// The space complexity of this solution is constant, O(1)
+// O(1)
+// .
+// Solution 2: Recursive#
+// In this solution, we will implement the binary search algorithm recursively. 
+// At each step, the search function calls itself using either the right half or the left half of the sorted array.
+let binarySearchRec = function(nums, target, low, high) {
+    if (low > high) {
+      return -1;
+    }
+    
+    // Finding the mid using floor division
+    let mid = low + Math.floor((high - low) / 2);
+    
+    // Target value is present at the middle of the array
+    if (nums[mid] === target) {
+      return mid;
+    } 
+  
+    // Target value is present in the low subarray
+    else if (target < nums[mid]) {
+      return binarySearchRec(nums, target, low, (mid - 1));
+    } 
+    
+    // Target value is present in the high subarray
+    else {
+      return binarySearchRec(nums, target, (mid + 1), high);
+    }
+  };
+  
+  let binarySearch = function(nums, target) {
+    return binarySearchRec(nums, target, 0, (nums.length - 1));
+  };
+  
+  let numsLists = [[], [0,1], [1,2,3], [-1,0,3,5,9,12], [-1,0,3,5,9,12]];
+  let targetList = [12, 1, 3, 9, 2];
+  for(let i=0; i<numsLists.length; i++){
+      let nums = numsLists[i];
+      let target = targetList[i];
+      let index = binarySearch(nums, target);
+      console.log(i+1 + ". Array to search: " + printArray(nums));
+      console.log("   Target: " + String(target));
+      if(index!= -1)
+          console.log("   " + String(target) + " exists in the array at index", index);
+      else
+          console.log("   " + String(target) + " does not exist in the array so the return value is", index);
+      console.log("----------------------------------------------------------------------------------------------------\n");
+  
+  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
                                                                                                                                                                       
