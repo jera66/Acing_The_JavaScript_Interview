@@ -665,6 +665,55 @@ let findLowIndex = function(nums, target) {
   target = -2;
   console.log("\nLow Index of  " + target + ": " + (findLowIndex(nums, target)));
   console.log("High Index of " + target + ": " + (findHighIndex(nums, target)));
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Moving All Zeros to the Beginning of the Array
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Move all zeros to the left of an array while maintaining its order.
+//We’re given an integer array, nums. 
+//Move all zeroes if any to the left while maintaining the order of other elements in the array.
+let moveZerosToLeft = function(nums) {
+    // Return if the list is empty
+    if (nums.length < 1) {
+      return;
+    }
+  
+    let lengthNums = nums.length;
+  
+    // Initializing the two markers
+    let writeIndex = lengthNums - 1;
+    let readIndex = lengthNums - 1;
+  
+    // Iterate read_index marker till the index is less than or equal to 0
+    while (readIndex >= 0) {
+      // Replacing writeIndex value with readIndex value
+      // This step moves the next non-zero value "back" in the array, 
+      // making space for the zero at the head of the array
+      if (nums[readIndex] != 0) {
+        nums[writeIndex] = nums[readIndex];
+        writeIndex--;
+      }
+      
+      readIndex--;
+    }
+    // Replacing initial values with zeroes
+    while (writeIndex >= 0) {
+      nums[writeIndex] = 0;
+      writeIndex--;
+    }
+  };
+  
+  var numsList = [[1, 10, 20, 0, 59, 63, 0, 88, 0], [1, 0, 2, 3, 0], [0], [-1, 0, 0, -2, 9], [1, 2, 3, 4, 5], [2]]
+  
+  for( let i=0; i<numsList.length; i++){
+    console.log((i + 1) + ". Before list:\t" + printArray( numsList[i]))
+    moveZerosToLeft(numsList[i])
+    console.log("   After list:\t" + printArray(numsList[i]))
+    console.log("----------------------------------------------------------------------------------------------------\n");
+  }
+//Time complexity#
+//The time complexity of this solution is O(n)
+//Space complexity#
+//The space complexity of this solution is O(1)
 
 
 
