@@ -712,9 +712,5 @@ let moveZerosToLeft = function(nums) {
   }
 
 
-//Time complexity#
-//The time complexity of this solution is O(n)
-//Space complexity#
-//The space complexity of this solution is O(1)
 
                                                                                                                                                                       
